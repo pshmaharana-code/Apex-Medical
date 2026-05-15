@@ -186,9 +186,24 @@ const viewPatientHistory = async (patientId) => {
 }
 const closeHistoryModal = () => { showHistoryModal.value = false }
 
+
+const fetchProfilePic = async () => {
+    try {
+        const response = await axios.get('http://127.0.0.1:5000/api/doctor/profile', {
+            headers: { Authorization: `Bearer ${authStore.token}` }
+        })
+        if (authStore.user) {
+            authStore.user.profile_picture = response.data.profile_picture
+        }
+    } catch (error) {
+        console.error("Failed to load profile picture:", error)
+    }
+}
+
 onMounted(() => {
     fetchDashboard()
     fetchLeaves()
+    fetchProfilePic()
 })
 </script>
 
