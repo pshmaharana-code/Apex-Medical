@@ -165,18 +165,19 @@ onMounted(() => {
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                     Medical History
                 </button>
-                <router-link to="/patient-profile" class="nav-btn">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                    Manage Profile
-                </router-link>
             </nav>
 
-            <div class="sidebar-bottom">
+            <div class="sidebar-bottom" style="margin-top: auto;">
                 <div class="premium-upgrade">
                     <h5>Apex Plus</h5>
                     <p>Unlock priority support and telehealth.</p>
                     <button class="btn-text">Upgrade Now &rarr;</button>
                 </div>
+                
+                <button @click="handleLogout" class="btn-logout-sidebar mt-2">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Secure Logout
+                </button>
             </div>
         </aside>
 
@@ -195,7 +196,7 @@ onMounted(() => {
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                         <span class="notification-dot"></span>
                     </button>
-                    <div class="user-profile">
+                    <div class="user-profile" @click="$router.push('/patient-profile')">
                         <img v-if="profilePic || authStore.user?.profile_picture" 
                             :src="`http://127.0.0.1:5000${profilePic || authStore.user?.profile_picture}`" 
                             alt="Profile" 
@@ -206,7 +207,10 @@ onMounted(() => {
                             {{ authStore.user?.username ? authStore.user.username.charAt(0).toUpperCase() : 'P' }}
                         </div>
                     
-                        <span class="user-name">{{ authStore.user?.username }}</span>
+                        <div class="profile-text">
+                            <span class="user-name">{{ authStore.user?.username }}</span>
+                            <span class="profile-subtext">Manage Profile</span>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -424,6 +428,19 @@ onMounted(() => {
     overflow: hidden; 
     background-color: #f1f5f9; 
 }
+
+/* Sidebar Logout Button */
+.mt-2 { margin-top: 1rem; }
+.btn-logout-sidebar { display: flex; align-items: center; gap: 0.8rem; color: #ef4444; background: transparent; border: none; font-size: 0.9rem; font-weight: 700; padding: 0.8rem 1rem; border-radius: 10px; transition: 0.2s; cursor: pointer; width: 100%; text-align: left; }
+.btn-logout-sidebar:hover { background: #fef2f2; color: #dc2626; }
+
+/* Top Nav Profile Hover */
+.user-profile { transition: 0.2s; }
+.user-profile:hover { opacity: 0.8; }
+.profile-text { display: flex; flex-direction: column; justify-content: center; }
+.user-name { font-weight: 700; font-size: 0.9rem; color: #1e293b; line-height: 1.2; }
+.profile-subtext { font-size: 0.75rem; color: #64748b; font-weight: 600; transition: 0.2s; }
+.user-profile:hover .profile-subtext { color: #0f766e; } /* Turns Teal on hover! */
 
 .top-nav { height: 70px; background: #ffffff; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
 .search-bar { display: flex; align-items: center; gap: 0.6rem; background: #f8fafc; padding: 0.5rem 1rem; border-radius: 8px; width: 350px; border: 1px solid #e2e8f0; }

@@ -85,7 +85,7 @@ onMounted(() => {
             </div>
 
             <button @click="handleActionClick" class="btn-nav">
-                {{ authStore.isAuthenticated ? 'Go to Dashboard' : 'Patient Login' }}
+                {{ authStore.isAuthenticated ? 'Go to Dashboard' : 'Login' }}
             </button>
         </nav>
 
@@ -251,7 +251,7 @@ onMounted(() => {
                     <a href="#services">Centers of Excellence</a>
                     <a href="#doctors">Our Specialists</a>
                     <a href="#" @click.prevent="handleBookClick">Book Appointment</a>
-                    <a href="#" @click.prevent="handleActionClick">Patient Login</a>
+                    <a href="#" @click.prevent="handleActionClick">Login</a>
                 </div>
 
                 <div class="footer-contact">
