@@ -200,10 +200,37 @@ const fetchProfilePic = async () => {
     }
 }
 
+
+// --- LIVE RADIO RECEIVER (SSE) ---
+const setupLiveUpdates = () => {
+    // 1. Get this specific doctor's ID from the JWT token in authStore
+    const userId = authStore.user?.id;
+    
+    if (!userId) return;
+
+    // 2. Tune the radio to this doctor's specific channel
+    const eventSource = new EventSource(`http://127.0.0.1:5000/stream?channel=user_${userId}`);
+
+    // 3. Listen for the 'new_appointment' signal
+    eventSource.addEventListener('new_appointment', (event) => {
+        const data = JSON.parse(event.data);
+        console.log("LIVE UPDATE RECEIVED:", data.message);
+        
+        // 4. Instantly refresh the dashboard data without reloading the page!
+        fetchDashboard(); 
+    });
+
+    // Handle connection errors gracefully
+    eventSource.onerror = (error) => {
+        console.error("SSE connection lost. Reconnecting...", error);
+    };
+}
+
 onMounted(() => {
     fetchDashboard()
     fetchLeaves()
     fetchProfilePic()
+    setupLiveUpdates()
 })
 </script>
 

@@ -20,7 +20,7 @@ matplotlib.use('Agg')
 from werkzeug.security import generate_password_hash
 
 
-
+from flask_sse import sse
 
 
 from dotenv import load_dotenv
@@ -40,6 +40,11 @@ client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
 
 #initialize the flask application
 app = Flask(__name__)
+
+# --- The Radio Station (SSE) Configuration ---
+# We use Redis database 0 for the stream, since Celery is using 1 and 2!
+app.config["REDIS_URL"] = "redis://localhost:6379/0"
+app.register_blueprint(sse, url_prefix='/stream')
 
 #---Media upload configuration---
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'uploads')
@@ -1210,6 +1215,7 @@ def api_book_appointment():
         
         data = request.get_json()
         doctor_id = data.get('doctor_id')
+        doctor = Doctor.query.get(doctor_id)
         date = data.get('date')
         time = data.get('time')
 
@@ -1255,6 +1261,23 @@ def api_book_appointment():
         if user_account and user_account.email:
             # Send to celery in the background
             send_payment_receipt(user_account.email, member_name_for_msg)
+
+        # ==========================================
+        # 4. BROADCAST THE LIVE UPDATE (SSE)
+        # ==========================================\
+        # 1. Send to the specific doctor's channel
+        sse.publish(
+            {"message": f"New appointment booked for {member_name_for_msg}"}, 
+            type='new_appointment',
+            channel=f'user_{doctor.user_id}'
+        )
+        
+        # 2. Send to the global admin channel
+        sse.publish(
+            {"message": f"New appointment booked with Dr. {doctor.name}"},
+            type='new_appointment',
+            channel='admin_alerts'
+        )
         
         # Dynamic success message!
         return jsonify({"msg": f"Appointment successfully booked for {member_name_for_msg}!"}), 201

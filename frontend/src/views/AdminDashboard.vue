@@ -179,8 +179,30 @@ const handleLogout = () => {
     authStore.logout(); router.push('/login')
 }
 
+
+// --- GLOBAL RADIO RECEIVER (ADMIN SSE) ---
+const setupAdminLiveUpdates = () => {
+    // 1. Tune the radio directly to the master 'admin_alerts' channel
+    const eventSource = new EventSource('http://127.0.0.1:5000/stream?channel=admin_alerts');
+
+    // 2. Listen for the 'new_appointment' global broadcast
+    eventSource.addEventListener('new_appointment', (event) => {
+        const data = JSON.parse(event.data);
+        console.log("GLOBAL ALERT RECEIVED:", data.message);
+        
+        // 3. Instantly refresh the admin stats and tables!
+        // (Make sure this matches the exact name of your data-fetching function)
+        fetchDashboard(); 
+        
+    });
+
+    eventSource.onerror = (error) => {
+        console.error("Admin SSE connection lost. Reconnecting...", error);
+    };
+}
+
 onMounted(() => {
-    fetchDashboard(); fetchDepartments(); fetchSystemUsers();
+    fetchDashboard(); fetchDepartments(); fetchSystemUsers(); setupAdminLiveUpdates();
 })
 </script>
 
