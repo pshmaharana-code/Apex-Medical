@@ -20,6 +20,9 @@ matplotlib.use('Agg')
 from werkzeug.security import generate_password_hash
 
 
+
+
+
 from dotenv import load_dotenv
 import razorpay
 
@@ -1243,6 +1246,16 @@ def api_book_appointment():
         db.session.add(new_appt)
         db.session.commit()
 
+        # ==========================================
+        # 3. PIN THE TICKET TO THE REDIS BOARD!
+        # ==========================================
+        from tasks import send_payment_receipt
+        # Fetch the user account to get their email address
+        user_account = User.query.get(patient.user_id)
+        if user_account and user_account.email:
+            # Send to celery in the background
+            send_payment_receipt(user_account.email, member_name_for_msg)
+        
         # Dynamic success message!
         return jsonify({"msg": f"Appointment successfully booked for {member_name_for_msg}!"}), 201
     
