@@ -196,6 +196,13 @@ const setupAdminLiveUpdates = () => {
         
     });
 
+    // Listen for CANCELLED appointments
+    eventSource.addEventListener('appointment_cancelled', (event) => {
+        const data = JSON.parse(event.data);
+        console.log("GLOBAL CANCELLATION RECEIVED:", data.message);
+        fetchDashboard(); 
+    });
+
     eventSource.onerror = (error) => {
         console.error("Admin SSE connection lost. Reconnecting...", error);
     };

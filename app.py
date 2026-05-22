@@ -1316,6 +1316,30 @@ def api_patient_cancel_appointment(appointment_id):
     try:
         appointment.status = 'Cancelled'
         db.session.commit()
+
+        # ==========================================
+        # 4. BROADCAST THE LIVE UPDATE (SSE)
+        # ==========================================
+        # Grab the doctor details so we have the correct user_id and name
+        doctor = Doctor.query.get(appointment.doctor_id)
+        doctor_name = doctor.name if doctor else "Unknown Doctor"
+
+        if doctor:
+            # 1. Alert the specific doctor's dashboard
+            sse.publish(
+                {"message": f"An appointment was cancelled."}, 
+                type='appointment_cancelled', # <-- Notice the new signal type!
+                channel=f'user_{doctor.user_id}'
+            )
+
+        # 2. Alert the Admin dashboard
+        sse.publish(
+            {"message": f"Appointment cancelled for Dr. {doctor_name}"}, 
+            type='appointment_cancelled',
+            channel='admin_alerts'
+        )
+
+
         return jsonify({"msg": "Appointment cancelled successfully."}), 200
 
     except Exception as e:

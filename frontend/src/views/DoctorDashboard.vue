@@ -220,6 +220,13 @@ const setupLiveUpdates = () => {
         fetchDashboard(); 
     });
 
+    // New Listen for CANCELLED appointments
+    eventSource.addEventListener('appointment_cancelled', (event) => {
+        const data = JSON.parse(event.data);
+        console.log("CANCELLATION RECEIVED:", data.message);
+        fetchDashboard();
+    })
+
     // Handle connection errors gracefully
     eventSource.onerror = (error) => {
         console.error("SSE connection lost. Reconnecting...", error);
