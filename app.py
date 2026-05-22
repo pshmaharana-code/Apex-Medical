@@ -21,7 +21,7 @@ from werkzeug.security import generate_password_hash
 
 
 from flask_sse import sse
-
+from flask_caching import Cache
 
 from dotenv import load_dotenv
 import razorpay
@@ -45,6 +45,14 @@ app = Flask(__name__)
 # We use Redis database 0 for the stream, since Celery is using 1 and 2!
 app.config["REDIS_URL"] = "redis://localhost:6379/0"
 app.register_blueprint(sse, url_prefix='/stream')
+
+
+# --- Redis Caching Configuration ---
+app.config['CACHE_TYPE'] = 'RedisCache'
+app.config['CACHE_REDIS_URL'] = 'redis://localhost:6379/3' 
+app.config['CACHE_DEFAULT_TIMEOUT'] = 300 
+
+cache = Cache(app)
 
 #---Media upload configuration---
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'uploads')
@@ -475,6 +483,11 @@ def api_admin_create_doctor():
         db.session.add(new_doctor)
 
         db.session.commit()
+
+        cache.delete('all_doctors')
+        cache.delete('all_departments')
+
+        
         return jsonify({"msg": f"Dr. {name} has been successfully registered!"}), 201
 
     except Exception as e:
@@ -526,6 +539,11 @@ def api_admin_departments():
             new_dept = Department(name=name, description=description)
             db.session.add(new_dept)
             db.session.commit()
+
+            # DESTROY THE STALE CACHE
+            cache.delete('all_departments')
+
+
             return jsonify({"msg": f"Department '{name}' created successfully!"}), 201
         except Exception as e:
             db.session.rollback()
@@ -552,6 +570,9 @@ def api_admin_department_detail(dept_id):
         dept.description = data.get('description', dept.description)
         try:
             db.session.commit()
+
+            cache.delete('all_departments')
+
             return jsonify({"msg": "Department updated successfully!"}), 200
         except Exception as e:
             db.session.rollback()
@@ -566,6 +587,9 @@ def api_admin_department_detail(dept_id):
         try:
             db.session.delete(dept)
             db.session.commit()
+
+            cache.delete('all_departments')
+
             return jsonify({"msg": "Department deleted successfully!"}), 200
         except Exception as e:
             db.session.rollback()
@@ -1132,6 +1156,7 @@ def api_get_doctor_slots(doctor_id):
     return jsonify(available_slots), 200
 
 @app.route('/api/doctors', methods=['GET'])
+@cache.cached(timeout=86400, key_prefix='all_doctors') # Cache for 24 hours
 def api_get_all_doctor():
     doctors = Doctor.query.all()
     doc_list = []
@@ -1149,6 +1174,7 @@ def api_get_all_doctor():
 
 @app.route('/api/departments', methods=['GET'])
 @jwt_required()
+@cache.cached(timeout=86400, key_prefix='all_departments')
 def api_get_departments():
     try:
         #fetch the depatmetn from the database
