@@ -26,7 +26,7 @@ celery_app.conf.beat_schedule = {
     # 2. The Monthly Admin Report (We will build this next)
     'generate-monthly-report': {
         'task': 'tasks.generate_monthly_report',
-        'schedule': crontab(day_of_month='1', hour=0, minute=0),
+        'schedule': crontab(minute='*'),
     }
 }
 
