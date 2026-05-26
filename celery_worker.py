@@ -1,4 +1,5 @@
 from celery import Celery, Task
+from celery.schedules import crontab
 
 from app import app
 
@@ -9,6 +10,26 @@ celery_app = Celery(
     backend='redis://localhost:6379/2',  # The Pickup Counter (Results)
     include=['tasks']                    # Tells Celery to look in tasks.py
 )
+
+celery_app.conf.timezone = 'Asia/Kolkata'
+celery_app.conf.enable_utc = False
+
+
+# --- THE MASTER SCHEDULER ---
+celery_app.conf.beat_schedule = {
+    # 1. The Daily Patient Reminders
+    'send-daily-reminders': {
+        'task': 'tasks.send_daily_reminders',
+        'schedule': crontab(hour=8, minute=0), 
+    },
+    
+    # 2. The Monthly Admin Report (We will build this next)
+    'generate-monthly-report': {
+        'task': 'tasks.generate_monthly_report',
+        'schedule': crontab(day_of_month='1', hour=0, minute=0),
+    }
+}
+
 
 # The "VIP Pass" logic to let Celery talk to your database
 class FlaskTask(Task):
