@@ -60,6 +60,11 @@ onMounted(() => {
 
 <template>
     <div class="landing-page">
+        <div class="vibe-background">
+            <div class="bg-section bg-1"></div>
+            <div class="bg-section bg-2"></div>
+            <div class="bg-section bg-3"></div>
+        </div>
         <div class="aura-container">
             <div class="aura-blob aura-blob-1"></div>
             <div class="aura-blob aura-blob-2"></div>
@@ -74,7 +79,7 @@ onMounted(() => {
 
         <nav class="navbar">
             <div class="nav-brand">
-                <div class="logo-mark">+</div>
+                <img src="@/assets/apex-logo2.png" alt="ApexMedical Logo" class="w-auto object-contain" style="height: 65px;" />
                 <span class="logo-text">ApexMedical</span>
             </div>
             
@@ -111,15 +116,18 @@ onMounted(() => {
                 <div class="floating-ui-container">
                     
                     <div class="glass-card card-top">
-                        <div class="icon-circle teal"></div>
+                        <img src="@/assets/dr-marcus.png" alt="Dr. Sarah Jenkins" class="card-avatar" style="object-fit: cover;" />
                         <div class="lines">
-                            <div class="line short"></div>
+                            <div class="card-info">
+                                <h4>Dr. Marcus Chen</h4>
+                                <p>Head of Neurology</p>
+                            </div>
                             <div class="line long"></div>
                         </div>
                     </div>
 
                     <div class="glass-card card-main">
-                        <div class="card-avatar"></div>
+                        <img src="@/assets/dr-sarah.png" alt="Dr. Sarah Jenkins" class="card-avatar" style="object-fit: cover;" />
                         <div class="card-info">
                             <h4>Dr. Sarah Jenkins</h4>
                             <p>Senior Cardiologist</p>
@@ -147,7 +155,7 @@ onMounted(() => {
             <div class="specialties-grid">
                 <div class="specialty-card">
                     <div class="icon-wrapper cardiology">
-                        <span class="icon-text">Cd</span>
+                        <img src="@/assets/icon-cardio.png" alt="Cardiology" class="dept-icon" />
                     </div>
                     <h3>Cardiology</h3>
                     <p>Comprehensive heart care, from advanced diagnostics to complex cardiac surgeries.</p>
@@ -156,7 +164,7 @@ onMounted(() => {
 
                 <div class="specialty-card">
                     <div class="icon-wrapper neurology">
-                        <span class="icon-text">Nr</span>
+                        <img src="@/assets/icon-neuro.png" alt="Neurology" class="dept-icon" />
                     </div>
                     <h3>Neurology</h3>
                     <p>Cutting-edge treatments for brain, spine, and complex nervous system disorders.</p>
@@ -165,7 +173,7 @@ onMounted(() => {
 
                 <div class="specialty-card">
                     <div class="icon-wrapper orthopedics">
-                        <span class="icon-text">Op</span>
+                        <img src="@/assets/icon-ortho.png" alt="Orthopedics" class="dept-icon" />
                     </div>
                     <h3>Orthopedics</h3>
                     <p>Specialized treatments for bones, joint replacements, and sports medicine.</p>
@@ -174,7 +182,7 @@ onMounted(() => {
 
                 <div class="specialty-card">
                     <div class="icon-wrapper pediatrics">
-                        <span class="icon-text">Pd</span>
+                        <img src="@/assets/icon-peds.png" alt="Pediatrics" class="dept-icon" />
                     </div>
                     <h3>Pediatrics</h3>
                     <p>Compassionate, expert medical care for infants, children, and adolescents.</p>
@@ -192,36 +200,51 @@ onMounted(() => {
 
             <div class="doctors-grid">
                 <div class="doctor-card">
-                    <div class="doc-avatar bg-gradient-1"></div>
+                    <img src="@/assets/dr-sarah.png" alt="Dr. Sarah Jenkins" class="doc-avatar" style="object-fit: cover;" />
                     <div class="doc-info">
                         <h3>Dr. Sarah Jenkins</h3>
                         <p class="doc-dept">Senior Cardiologist</p>
                         <div class="doc-stats">
-                            <span class="stat-badge">⭐ 4.9</span>
+                            <span class="stat-badge">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="star-icon">
+                                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
+                                </svg>
+                                    4.9
+                            </span>
                             <span class="stat-badge">12 Yrs Exp</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="doctor-card">
-                    <div class="doc-avatar bg-gradient-2"></div>
+                    <img src="@/assets/dr-marcus.png" alt="Dr. Marcus Chen" class="doc-avatar" style="object-fit: cover;" />
                     <div class="doc-info">
                         <h3>Dr. Marcus Chen</h3>
                         <p class="doc-dept">Head of Neurology</p>
                         <div class="doc-stats">
-                            <span class="stat-badge">⭐ 5.0</span>
+                            <span class="stat-badge">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="star-icon">
+                                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
+                                </svg>
+                                5.0
+                            </span>
                             <span class="stat-badge">15 Yrs Exp</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="doctor-card">
-                    <div class="doc-avatar bg-gradient-3"></div>
+                    <img src="@/assets/dr-emily.png" alt="Dr. Emily Thorne" class="doc-avatar" style="object-fit: cover;" />
                     <div class="doc-info">
                         <h3>Dr. Emily Thorne</h3>
                         <p class="doc-dept">Pediatric Specialist</p>
                         <div class="doc-stats">
-                            <span class="stat-badge">⭐ 4.8</span>
+                            <span class="stat-badge">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="star-icon">
+                                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
+                                </svg>
+                                4.8
+                            </span>
                             <span class="stat-badge">8 Yrs Exp</span>
                         </div>
                     </div>
@@ -240,7 +263,7 @@ onMounted(() => {
             <div class="footer-content">
                 <div class="footer-brand">
                     <div class="nav-brand">
-                        <div class="logo-mark">+</div>
+                        <img src="@/assets/apex-logo2.png" alt="ApexMedical Logo" class="w-auto object-contain" style="height: 65px;" />
                         <span class="logo-text-light">ApexMedical</span>
                     </div>
                     <p class="brand-desc">Redefining modern healthcare with world-class specialists and cutting-edge technology.</p>
@@ -281,10 +304,66 @@ onMounted(() => {
     color: #0f172a;
     position: relative;
     overflow-x: hidden;
-    /* Replaced flat gray with a very soft, cool blue-tinted gradient */
+    /* Back to the soft base layer so the images can blend into it */
     background: linear-gradient(135deg, #f0f9ff 0%, #e6f2f2 100%); 
 }
+/* --- THE CONTINUOUS VIBE BACKGROUND --- */
+/* --- THE CONTINUOUS VIBE BACKGROUND --- */
+/* --- THE CONTINUOUS VIBE BACKGROUND (FIXED) --- */
+.vibe-background {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0; /* Locks firmly to the full scrollable page height */
+    z-index: 1;
+    opacity: 0.35; /* Dialed down slightly so the text stays crisp */
+    pointer-events: none;
+}
 
+.bg-section {
+    position: absolute; /* Mathematically anchors each image */
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Top Image: Covers 0% to 40% of the page */
+.bg-1 {
+    top: 0;
+    height: 40%;
+    background-image: url('@/assets/bg-1.png');
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+
+/* Middle Image: Covers 30% to 70% of the page (Overlaps the top and bottom!) */
+.bg-2 {
+    top: 30%;
+    height: 40%;
+    background-image: url('@/assets/bg-2.png');
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+}
+
+/* Bottom Image: Covers 60% to 100% of the page */
+/* Bottom Image: Covers 60% to 95% of the page (Stops right before the footer!) */
+.bg-3 {
+    top: 60%;
+    height: 35%;
+    background-image: url('@/assets/bg-3.png');
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 100%);
+}
+
+/* Let's also tone down the aura blobs since the image does the heavy lifting now */
+.aura-blob {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    filter: blur(120px); /* Softer blur */
+    opacity: 0.3; /* Turned opacity way down */
+    mix-blend-mode: overlay;
+}
 /* --- 2. MORE VIBRANT AURA --- */
 .aura-container {
     position: fixed;
@@ -344,6 +423,9 @@ onMounted(() => {
 }
 
 /* --- UPGRADED FLOATING NAVBAR --- */
+/* --- UPGRADED FLOATING NAVBAR --- */
+/* --- THE HYBRID GLASS NAVBAR --- */
+/* --- THE HYBRID GLASS NAVBAR --- */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -354,17 +436,21 @@ onMounted(() => {
     top: 1.5rem; 
     z-index: 100;
     
-    /* True Translucent Glass Gradient */
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 100%);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4)), url('@/assets/nav-bg.png');
+    
+    /* THE FIX: Forces the full image into the box (Width Height) */
+    background-size: 100% 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.9);
     border-radius: 24px; 
-    box-shadow: 0 8px 32px rgba(15, 118, 110, 0.08); /* Slight teal tint in the shadow */
+    box-shadow: 0 15px 35px rgba(15, 23, 42, 0.15), 0 5px 15px rgba(0, 0, 0, 0.05); 
 }
 
 .nav-brand { display: flex; align-items: center; gap: 0.6rem; }
-.logo-mark { background: #0f766e; color: white; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: bold; font-size: 1.2rem; }
 .logo-text { font-size: 1.3rem; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
 .nav-links a { text-decoration: none; color: #64748b; font-weight: 600; font-size: 0.95rem; margin: 0 1.5rem; transition: color 0.3s; }
 .nav-links a:hover { color: #0f766e; }
@@ -473,11 +559,14 @@ onMounted(() => {
 .card-avatar {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #0f766e, #38bdf8);
     border-radius: 50%;
     margin-bottom: 1rem;
     border: 4px solid white;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    
+    /* THE CSS CROP MAGIC */
+    object-fit: cover;
+    object-position: center top; /* Keeps the focus on the face/head */
 }
 
 .card-info h4 { margin: 0 0 0.2rem 0; color: #0f172a; font-size: 1.2rem; }
@@ -517,10 +606,6 @@ onMounted(() => {
 /* --- CENTERS OF EXCELLENCE SECTION --- */
 .specialties-section {
     padding: 8rem 5%;
-    /* NEW: This frosted gradient dims the aura specifically for this section, making it look much cleaner */
-    background: linear-gradient(to bottom, rgba(248, 250, 252, 0.1), rgba(248, 250, 252, 0.85) 40%);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     position: relative;
     z-index: 10;
 }
@@ -577,29 +662,35 @@ onMounted(() => {
 
 /* --- CARD INNER STYLING (The Premium Monograms) --- */
 .icon-wrapper {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
+    width: 80px;      /* Increased from 56px */
+    height: 80px;     /* Increased from 56px */
+    border-radius: 20px; /* Slightly rounder to match the larger size */
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1.5rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08); /* Softened and expanded the shadow */
+    border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-.icon-text {
-    font-size: 1.4rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    color: #0f172a;
+.dept-icon {
+    width: 65px;      /* Increased from 44px */
+    height: 65px;     /* Increased from 44px */
+    object-fit: contain; 
+    /* Boosted the drop shadow so the larger 3D objects pop off the screen */
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); 
+    transition: transform 0.3s ease; /* Adds a nice hover effect baseline */
+}
+
+.specialty-card:hover .dept-icon {
+    transform: scale(1.1) rotate(-5deg);
 }
 
 /* Sleeker, less saturated gradients for the icon boxes */
-.cardiology { background: linear-gradient(135deg, #ffe4e6, #fecdd3); }
-.neurology { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); }
-.orthopedics { background: linear-gradient(135deg, #ecfdf5, #d1fae5); }
-.pediatrics { background: linear-gradient(135deg, #fefce8, #fef08a); }
+.cardiology { background: linear-gradient(135deg, #0f766e, #042f2e); }
+.neurology { background: linear-gradient(135deg, #0f766e, #042f2e); }
+.orthopedics { background: linear-gradient(135deg, #0f766e, #042f2e); }
+.pediatrics { background: linear-gradient(135deg, #0f766e, #042f2e); }
 
 
 /* --- FEATURED DOCTORS SECTION --- */
@@ -647,11 +738,13 @@ onMounted(() => {
     margin-bottom: 1.5rem;
     border: 4px solid white;
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    
+    /* THE CSS CROP MAGIC */
+    object-fit: cover;
+    object-position: center top; 
 }
 
-.bg-gradient-1 { background: linear-gradient(135deg, #0ea5e9, #38bdf8); }
-.bg-gradient-2 { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
-.bg-gradient-3 { background: linear-gradient(135deg, #10b981, #34d399); }
+
 
 /* --- INFO & STATS --- */
 .doc-info h3 {
@@ -683,46 +776,58 @@ onMounted(() => {
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 600;
+    
+    /* NEW: Flexbox to perfectly align the star and text */
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* NEW: Styling the SVG star */
+.star-icon {
+    width: 16px;
+    height: 16px;
+    color: #f59e0b; /* A professional, warm amber/gold color */
 }
 
 /* --- PREMIUM FOOTER --- */
 .site-footer {
-    background-color: #0f172a; /* Deep Navy/Slate to ground the page */
+    background-color: #0f172a; 
     color: #f8fafc;
-    padding: 6rem 5% 2rem;
+    padding: 3.5rem 5% 1.5rem; /* Trimmed top padding from 6rem to 3.5rem */
     position: relative;
-    z-index: 20; /* Keep it above the floating aura */
+    z-index: 20; 
 }
 
 /* --- FOOTER CTA --- */
 .footer-cta {
     text-align: center;
-    padding-bottom: 5rem;
+    padding-bottom: 2rem; /* Drastically reduced from 5rem */
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;  /* Drastically reduced from 4rem */
 }
 
 .footer-cta h2 {
-    font-size: 2.8rem;
+    font-size: 2.2rem; /* Scaled down from 2.8rem for a sleeker look */
     font-weight: 800;
-    margin-bottom: 1rem;
-    letter-spacing: -1px;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
 }
 
 .footer-cta p {
     color: #94a3b8;
-    font-size: 1.2rem;
-    margin-bottom: 2.5rem;
+    font-size: 1.05rem; /* Scaled down from 1.2rem */
+    margin-bottom: 1.2rem; /* Reduced from 2.5rem */
 }
 
 .btn-footer-cta {
-    margin-top: 1.5rem; /* <-- ADD THIS LINE */
+    margin-top: 0.5rem; 
     background: #10b981; 
     color: #0f172a;
     border: none;
-    padding: 1rem 2.5rem;
+    padding: 0.75rem 2rem; /* Sleeker, less bulky button padding */
     border-radius: 30px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -730,44 +835,27 @@ onMounted(() => {
 }
 
 .btn-footer-cta:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     background: #34d399;
-    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
 }
 
 /* --- FOOTER CONTENT GRID --- */
 .footer-content {
     display: grid;
-    /* Changed from 2fr 1fr 1fr to distribute space more evenly */
     grid-template-columns: 1.5fr 1fr 1.2fr; 
-    gap: 3rem; /* Reduced gap slightly to pull them together */
-    max-width: 1200px; /* Tightened the max-width so they don't drift too far apart */
+    gap: 2rem; /* Reduced column spacing */
+    max-width: 1200px; 
     margin: 0 auto;
-    padding-bottom: 4rem;
-}
-
-/* Responsive Grid for Mobile */
-@media (max-width: 768px) {
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-        text-align: center;
-    }
-    .footer-brand .nav-brand { justify-content: center; }
-}
-
-.logo-text-light {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: white;
-    letter-spacing: -0.5px;
+    padding-bottom: 2rem; /* Trimmed vertical gap before copyright line */
 }
 
 .brand-desc {
-    color: #cbd5e1; /* Lightened from #94a3b8 */
-    line-height: 1.6;
-    margin-top: 1.5rem;
+    color: #cbd5e1; 
+    line-height: 1.5;
+    margin-top: 1rem; /* Brought description closer to logo text */
     max-width: 320px;
+    font-size: 0.9rem; /* Made description slightly more compact */
 }
 
 @media (max-width: 768px) { .brand-desc { margin: 1.5rem auto 0; } }
