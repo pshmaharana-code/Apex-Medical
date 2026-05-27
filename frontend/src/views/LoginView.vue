@@ -63,13 +63,13 @@ const handleLogin = async () => {
 
         <div class="login-wrapper">
             <div class="brand-header" @click="$router.push('/')">
-                <div class="logo-mark">+</div>
+                <img src="@/assets/apex-logo2.png" alt="ApexMedical Logo" class="w-auto object-contain" style="height: 80px;" />
                 <span class="logo-text">ApexMedical</span>
             </div>
 
             <div class="login-card">
                 <div class="card-header">
-                    <h2>System Login</h2>
+                    <h2>User Login</h2>
                     <p>Sign in to access your secure portal.</p>
                 </div>
 
@@ -122,6 +122,9 @@ const handleLogin = async () => {
 
 
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&display=swap');
+
 /* --- BASE SETUP & AURA --- */
 .login-page {
     font-family: 'Inter', -apple-system, sans-serif;
@@ -129,9 +132,13 @@ const handleLogin = async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #f0f9ff 0%, #e6f2f2 100%);
     position: relative;
     overflow: hidden;
+    
+    /* NEW: The Cinematic Background */
+    background-image: url('@/assets/auth-bg.png');
+    background-size: cover;
+    background-position: center;
 }
 
 .aura-container {
@@ -195,7 +202,14 @@ const handleLogin = async () => {
 }
 
 .card-header { text-align: center; margin-bottom: 2.5rem; }
-.card-header h2 { color: #0f172a; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+.card-header h2 { 
+    font-family: 'Outfit', sans-serif; /* NEW: Applies the premium font */
+    color: #0f172a; 
+    font-size: 2.1rem; /* Slightly larger to show off the new font */
+    font-weight: 800; 
+    margin-bottom: 0.5rem; 
+    letter-spacing: -1px; /* Pulls the letters tighter for a modern logo-like feel */
+}
 .card-header p { color: #64748b; font-size: 0.95rem; }
 
 /* --- FORM INPUTS --- */
@@ -256,6 +270,8 @@ const handleLogin = async () => {
 
 /* --- BUTTON & FOOTER --- */
 .btn-primary {
+    font-family: 'Outfit', sans-serif; /* NEW */
+    background: #0f766e;
     background: #0f766e;
     color: white;
     border: none;

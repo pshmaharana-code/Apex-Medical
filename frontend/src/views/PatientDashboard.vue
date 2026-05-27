@@ -152,7 +152,7 @@ onMounted(() => {
         <!-- SIDE NAVIGATION (Solid White Base) -->
         <aside class="side-nav">
             <div class="brand-header" @click="$router.push('/')">
-                <div class="logo-mark">+</div>
+                <img src="@/assets/apex-logo2.png" alt="ApexMedical Logo" class="w-auto object-contain" style="height: 80px;" />
                 <span class="logo-text">ApexMedical</span>
             </div>
 

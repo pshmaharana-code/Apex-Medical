@@ -45,7 +45,7 @@ const handleRegister = async () => {
 
         <div class="auth-wrapper">
             <div class="brand-header" @click="$router.push('/')">
-                <div class="logo-mark">+</div>
+                <img src="@/assets/apex-logo2.png" alt="ApexMedical Logo" class="w-auto object-contain" style="height: 80px;" />
                 <span class="logo-text">ApexMedical</span>
             </div>
 
@@ -107,10 +107,14 @@ const handleRegister = async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #f0f9ff 0%, #e6f2f2 100%);
     position: relative;
     overflow: hidden;
-    padding: 2rem 0; /* Added padding so top/bottom don't cut off on small screens */
+    padding: 2rem 0; 
+    
+    /* NEW: The Cinematic Background */
+    background-image: url('@/assets/auth-bg.png');
+    background-size: cover;
+    background-position: center;
 }
 
 .aura-container {

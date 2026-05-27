@@ -121,7 +121,7 @@ onMounted(() => { fetchProfile() })
 
         <aside class="side-nav glass-panel">
             <div class="brand-header" @click="router.push('/doctor-dashboard')">
-                <div class="logo-mark provider-gradient">Rx</div>
+                <img src="@/assets/apex-logo2.png" alt="ApexMedical Logo" class="w-auto object-contain" style="height: 80px;" />
                 <span class="logo-text">Apex Provider</span>
             </div>
 
