@@ -1,106 +1,80 @@
-# Hospital Management System (HMS)
+# ApexMedical - Modern Hospital Management System
 
-A robust, role-based web application designed to streamline hospital operations. This system manages patients, doctors, appointments, and medical history in a centralized, secure environment.
+[![Vue.js](https://img.shields.io/badge/Vue.js-3.X-4FC08D?style=flat&logo=vuedotjs)](https://vuejs.org/)
+[![Flask](https://img.shields.io/badge/Flask-Backend-000000?style=flat&logo=flask)](https://flask.palletsprojects.com/)
+[![Redis](https://img.shields.io/badge/Redis-Task%20Queue-DC382D?style=flat&logo=redis)](https://redis.io/)
 
-## 🚀 Features
-## 🏥 Current Features
+ApexMedical is a high-performance, full-stack Hospital Management System designed to redefine the digital healthcare experience. It bridges the gap between top-tier medical specialists and patients through a secure, seamless portal. 
 
-**God-Mode Admin Panel (In Progress)**
-* Secure Role-Based Access Control (RBAC) restricted to `admin` JWTs.
-* Real-time hospital analytics aggregation (Total Doctors, Patients, Appointments).
-* Live feed of recent hospital-wide scheduling activity.
+The application features a custom, cinematic **Glassmorphism** and **Skeuomorphic** UI design, utilizing an "Apex Teal" (#0f766e) color palette to deliver a premium, modern aesthetic without sacrificing accessibility or speed.
 
-### 1. Admin Role
-* **Dashboard:** View system statistics (Total Doctors, Patients, Appointments) with a server-side generated graphical chart.
-* **Manage Staff:** Full CRUD (Create, Read, Update, Delete) capabilities for Doctors.
-* **Manage Departments:** Dynamically create new medical departments/specializations.
-* **Manage Patients:** View and manage patient accounts (Edit, Blacklist/Activate, Delete).
-* **Appointments:** View a master list of all appointments (Booked, Completed, Cancelled).
-* **Patient History:** Access the complete medical history of any patient.
+## 🚀 Key Features
 
-### 2. Doctor Role
-* **Dashboard:** View personal upcoming appointments.
-* **Smart Scheduling:** Manage a **7-Day Repeating Schedule** (Morning/Evening shifts). The system automatically generates bookable slots based on this schedule.
-* **Treatment:** Mark appointments as "Completed" and record Diagnosis, Prescription, and Notes.
-* **History:** View the medical history of patients they are treating.
+* **Secure Authentication:** Role-based access control (RBAC) for Patients, Doctors, and Administrators using JWT.
+* **Cinematic UI/UX:** A bespoke frontend featuring frosted glass elements, abstract cinematic backgrounds, and smooth GSAP animations.
+* **Appointment Management:** Real-time scheduling, booking, and portal access for patients.
+* **Asynchronous Processing:** Integrated Celery and Redis task queues for handling heavy background operations.
+* **Decoupled Architecture:** A clean separation of concerns with a Vue 3 (Vite) Single Page Application talking to a lightweight Flask REST API.
 
-### 3. Patient Role
-* **User Account:** Secure Registration, Login, and Profile Management (Edit Name/Contact).
-* **Booking System:** * Browse Doctors by Department.
-    * Check real-time availability (slots are generated based on the doctor's schedule and existing bookings).
-    * Prevent double-booking conflicts.
-* **Dashboard:** View upcoming appointments and status.
-* **History:** View complete past medical history, including prescriptions and diagnoses from previous visits.
+## 💻 Tech Stack
 
----
+**Frontend:**
+* Vue 3 (Composition API)
+* Vite (Build Tool)
+* Vue Router (Navigation)
+* Pinia (State Management)
+* GSAP (Animations)
+* Custom CSS (Glassmorphism & CSS Masking)
 
-## 🛠️ Technology Stack
+**Backend:**
+* Python 3 & Flask (REST API)
+* SQLite / PostgreSQL (Database)
+* Celery (Background Tasks)
+* Redis (Message Broker)
 
-* **Backend:** Python (Flask)
-* **Database:** SQLite (Managed via Flask-SQLAlchemy)
-* **Frontend:** HTML5, CSS3, Bootstrap 5 (Jinja2 Templating)
-* **Authentication:** Flask-Login, Flask-Bcrypt
-* **Visualization:** Matplotlib (Server-side chart generation)
-* **Constraint:** Zero client-side JavaScript logic (Project Requirement)
+## 🛠️ Local Development Setup
 
----
+Follow these instructions to get a copy of the project up and running on your local machine.
 
-## 📂 Project Structure
+### 1. Clone the Repository
+```bash
+git clone [https://github.com/pshmaharana-code/Apex-Medical.git](https://github.com/pshmaharana-code/Apex-Medical.git)
+cd Apex-Medical
 
-/hospital-management-system
-│
-├── venv/
-│
-├── instance/                   
-│   └── database.db
-│
-├── static/ 
-│   ├── css/
-│   │   ├── style.css
-│   │   ├── login_style.css
-│   │   └── landing.css
-│   │
-│   └── img/
-│       ├── hero_image.jpg
-│       └── doctor_login_image.png
-│
-├── templates/
-│   │   # --- Base & Public ---
-│   ├── layout.html
-│   ├── index.html
-│   ├── login.html
-│   ├── register.html
-│   │
-│   │   # --- Admin Pages ---
-│   ├── admin_dashboard.html
-│   ├── manage_doctors.html
-│   ├── add_doctor.html
-│   ├── edit_doctor.html
-│   ├── manage_patients.html
-│   ├── edit_patient.html
-│   ├── manage_appointments.html
-│   ├── add_departments.html
-│   ├── admin_patient_history.html
-│   │
-│   │   # --- Doctor Pages ---
-│   ├── doctor_dashboard.html
-│   ├── mark_complete.html
-│   ├── doctor_patient_history.html
-│   │
-│   │   # --- Patient Pages ---
-│   ├── patient_dashboard.html
-│   ├── patient_edit_profile.html  
-│   ├── patient_history.html       
-│   │
-│   │   # --- Booking Flow (Patient) ---
-│   ├── select_deaprtment.html   
-│   ├── select_doctor.html         
-│   ├── doctor_profile.html       
-│   ├── select_slot.html           
-│   └── confirm_booking.html        
-│
-├── app.py                      
-├── models.py                   
-├── init_db.py                  
-├── requirements.txt            
-└── README.md                   
+2. Frontend Setup (Vue.js)
+Open a terminal in the root directory and install the Node dependencies:
+
+Bash
+npm install
+
+Start the Vite development server:
+Bash
+npm run dev
+
+3. Backend Setup (Flask & Celery)
+Open a separate terminal in the root directory. Create and activate a Python virtual environment:
+Bash
+# Windows
+python -m venv venv
+venv\Scripts\activate
+
+# macOS/Linux
+python3 -m venv venv
+source venv/bin/activate
+
+Install the Python requirements:
+Bash
+pip install -r requirements.txt
+
+Start the Flask development server:
+Bash
+python app.py
+
+(Note: To test background tasks locally, ensure you have a Redis server running and start your Celery worker using celery -A celery_worker.celery worker --loglevel=info)
+
+👨‍💻 Author
+Piyush Maharana
+
+GitHub: @pshmaharana-code
+
+Designed and built to showcase modern web architecture and premium UI design patterns.
