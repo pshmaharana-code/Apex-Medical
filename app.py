@@ -45,8 +45,11 @@ app = Flask(__name__)
 # We use Redis database 0 for the stream, since Celery is using 1 and 2!
 # --- Base Redis URL from Render ---
 base_redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
-app.register_blueprint(sse, url_prefix='/stream')
 
+# --- THE FIX: We must explicitly save it into Flask's config ---
+app.config["REDIS_URL"] = base_redis_url
+
+app.register_blueprint(sse, url_prefix='/stream')
 
 # --- Redis Caching Configuration ---
 app.config['CACHE_TYPE'] = 'RedisCache'
