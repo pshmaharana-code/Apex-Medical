@@ -1,14 +1,17 @@
+import os
 from celery import Celery, Task
 from celery.schedules import crontab
-
 from app import app
 
-#Initialize the celery app
+# Grab the Render Redis URL, default to localhost for testing
+base_redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
+
+# Initialize the celery app
 celery_app = Celery(
     'tasks',
-    broker='redis://localhost:6379/1',   # The Pinboard (Incoming Tasks)
-    backend='redis://localhost:6379/2',  # The Pickup Counter (Results)
-    include=['tasks']                    # Tells Celery to look in tasks.py
+    broker=f'{base_redis_url}/1',   
+    backend=f'{base_redis_url}/2',  
+    include=['tasks']                    
 )
 
 celery_app.conf.timezone = 'Asia/Kolkata'

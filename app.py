@@ -43,13 +43,15 @@ app = Flask(__name__)
 
 # --- The Radio Station (SSE) Configuration ---
 # We use Redis database 0 for the stream, since Celery is using 1 and 2!
-app.config["REDIS_URL"] = "redis://localhost:6379/0"
+# --- Base Redis URL from Render ---
+base_redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
 app.register_blueprint(sse, url_prefix='/stream')
 
 
 # --- Redis Caching Configuration ---
 app.config['CACHE_TYPE'] = 'RedisCache'
-app.config['CACHE_REDIS_URL'] = 'redis://localhost:6379/3' 
+# --- Redis Caching Configuration ---
+app.config['CACHE_REDIS_URL'] = f"{base_redis_url}/3" 
 app.config['CACHE_DEFAULT_TIMEOUT'] = 300 
 
 cache = Cache(app)
@@ -109,7 +111,12 @@ CORS(app)
 app.config["JWT_SECRET_KEY"] = "super-secrete-hms-key-change-later"
 jwt = JWTManager(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+# Fetch the Render DB URL, and fix an old SQLAlchemy naming quirk if it exists
+db_url = os.getenv("DATABASE_URL", "sqlite:///database.db")
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 #Initialize extention
