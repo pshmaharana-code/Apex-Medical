@@ -1609,41 +1609,5 @@ def api_get_family_members():
 
 from models import User, Doctor, Patient, FamilyMember, Appointment, Treatment, Department, DoctorAvailability, DoctorLeave
 
-@app.route('/setup-database')
-def setup_database():
-    try:
-        # 1. Create all tables in the Render PostgreSQL database
-        db.create_all()
-
-        # 2. Create the default Admin User
-        if not User.query.filter_by(username='admin').first():
-            hashed_password = bcrypt.generate_password_hash('admin').decode('utf-8')
-            admin_user = User(
-                username='admin', 
-                password=hashed_password, 
-                role='admin',
-                email='admin123@gmail.com',
-                status='active'
-            )
-            db.session.add(admin_user)
-
-        # 3. Create the default Departments
-        if not Department.query.first():
-            departments = [
-                Department(name='Cardiology', description='Specializes in heart-related issues.'),
-                Department(name='Orthopedics', description='Focuses on conditions involving the musculoskeletal system.'),
-                Department(name='Neurology', description='Deals with disorders of the nervous system.'),
-                Department(name='Dermatology', description='Concerned with the diagnosis and treatment of skin diseases.'),
-                Department(name='Pediatrics', description='Provides medical care for infants, children, and adolescents.')
-            ]
-            db.session.bulk_save_objects(departments)
-
-        db.session.commit()
-        return "<h1>Cloud Database successfully generated and populated! 🎉</h1>", 200
-
-    except Exception as e:
-        db.session.rollback()
-        return f"<h1>Error creating database: {str(e)}</h1>", 500
-
 if __name__ == '__main__':
     app.run(debug=True)
