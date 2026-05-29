@@ -26,10 +26,11 @@ celery_app.conf.beat_schedule = {
         'schedule': crontab(hour=8, minute=0), 
     },
     
-    # 2. The Monthly Admin Report (We will build this next)
+    # 2. The Monthly Admin Report 
     'generate-monthly-report': {
         'task': 'tasks.generate_monthly_report',
-        'schedule': crontab(minute='*'),
+        # THE FIX: Run at 8:00 AM on the 1st day of every month
+        'schedule': crontab(day_of_month='1', hour=8, minute=0),
     }
 }
 

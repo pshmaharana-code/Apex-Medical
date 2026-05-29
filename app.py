@@ -467,7 +467,9 @@ def api_admin_create_doctor():
     username = data.get('username')
     password = data.get('password')
     department_id = data.get('department_id')
-    experience = data.get('experience')
+    # --- THE FIX: Safely convert experience to a number ---
+    raw_experience = data.get('experience')
+    experience = int(raw_experience) if raw_experience else 0
 
     # Update validation checks
     if not all([name, email, username, password, department_id]):
