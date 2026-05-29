@@ -202,30 +202,34 @@ const fetchProfilePic = async () => {
 
 
 // --- LIVE RADIO RECEIVER (SSE) ---
+// --- LIVE RADIO RECEIVER (SSE) ---
 const setupLiveUpdates = () => {
     // 1. Get this specific doctor's ID from the JWT token in authStore
     const userId = authStore.user?.id;
     
     if (!userId) return;
 
-    // 2. Tune the radio to this doctor's specific channel
-    const eventSource = new EventSource(`http://127.0.0.1:5000/stream?channel=user_${userId}`);
+    // 2. Get the cloud API URL
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
 
-    // 3. Listen for the 'new_appointment' signal
+    // 3. Tune the radio to this doctor's specific channel using backticks for the string!
+    const eventSource = new EventSource(`${baseUrl}/stream?channel=user_${userId}`);
+
+    // Listen for the 'new_appointment' signal
     eventSource.addEventListener('new_appointment', (event) => {
         const data = JSON.parse(event.data);
         console.log("LIVE UPDATE RECEIVED:", data.message);
         
-        // 4. Instantly refresh the dashboard data without reloading the page!
+        // Instantly refresh the dashboard data without reloading the page!
         fetchDashboard(); 
     });
 
-    // New Listen for CANCELLED appointments
+    // Listen for CANCELLED appointments
     eventSource.addEventListener('appointment_cancelled', (event) => {
         const data = JSON.parse(event.data);
         console.log("CANCELLATION RECEIVED:", data.message);
         fetchDashboard();
-    })
+    });
 
     // Handle connection errors gracefully
     eventSource.onerror = (error) => {

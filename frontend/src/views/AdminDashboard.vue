@@ -181,9 +181,13 @@ const handleLogout = () => {
 
 
 // --- GLOBAL RADIO RECEIVER (ADMIN SSE) ---
+// --- GLOBAL RADIO RECEIVER (ADMIN SSE) ---
 const setupAdminLiveUpdates = () => {
-    // 1. Tune the radio directly to the master 'admin_alerts' channel
-    const eventSource = new EventSource('http://127.0.0.1:5000/stream?channel=admin_alerts');
+    // 1. Get the cloud API URL, fallback to local if running on your machine
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+    
+    // 2. Tune the radio directly to the master 'admin_alerts' channel
+    const eventSource = new EventSource(`${baseUrl}/stream?channel=admin_alerts`);
 
     // 2. Listen for the 'new_appointment' global broadcast
     eventSource.addEventListener('new_appointment', (event) => {
@@ -191,9 +195,7 @@ const setupAdminLiveUpdates = () => {
         console.log("GLOBAL ALERT RECEIVED:", data.message);
         
         // 3. Instantly refresh the admin stats and tables!
-        // (Make sure this matches the exact name of your data-fetching function)
         fetchDashboard(); 
-        
     });
 
     // Listen for CANCELLED appointments
