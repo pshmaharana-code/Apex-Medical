@@ -96,6 +96,7 @@ const onFileSelect = (event) => {
 }
 
 const handleCroppedImage = async (blob) => {
+    showCropModal.value = false // <-- NEW: Close modal instantly!
     isUploading.value = true
     uploadError.value = ''
     const formData = new FormData()
@@ -119,7 +120,6 @@ const handleCroppedImage = async (blob) => {
         
         // 3. Force image refresh
         imageTimestamp.value = Date.now()
-        showCropModal.value = false
         
         updateMessage.value = "Profile picture updated globally!"
         setTimeout(() => updateMessage.value = '', 3000)
@@ -205,6 +205,10 @@ onMounted(() => {
                                      alt="Profile" class="profile-img">
                                 <div v-else class="avatar-placeholder">
                                     {{ profile.name ? profile.name.charAt(0).toUpperCase() : '?' }}
+                                </div>
+
+                                <div v-if="isUploading" class="upload-overlay">
+                                    <div class="spinner-overlay-teal"></div>
                                 </div>
                             </div>
                             
@@ -418,7 +422,20 @@ onMounted(() => {
 
 /* --- AVATAR SECTION --- */
 .avatar-section { display: flex; align-items: center; gap: 2rem; }
-.avatar-wrapper { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; border: 4px solid #f0fdfa; box-shadow: 0 4px 15px rgba(15, 118, 110, 0.1); display: flex; align-items: center; justify-content: center; background: #f8fafc; flex-shrink: 0; }
+.avatar-wrapper { position: relative; width: 100px; height: 100px; border-radius: 50%; overflow: hidden; border: 4px solid #f0fdfa; box-shadow: 0 4px 15px rgba(15, 118, 110, 0.1); display: flex; align-items: center; justify-content: center; background: #f8fafc; flex-shrink: 0; }
+
+.upload-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 10;
+}
+.spinner-overlay-teal {
+  width: 32px; height: 32px;
+  border: 4px solid rgba(15, 118, 110, 0.2); border-top-color: #0f766e;
+  border-radius: 50%; animation: spin 1s linear infinite;
+}
 .profile-img { width: 100%; height: 100%; object-fit: cover; }
 .avatar-placeholder { font-size: 2.5rem; font-weight: 800; color: #0f766e; }
 .avatar-actions h3 { margin: 0 0 0.3rem 0; font-size: 1rem; color: #1e293b; }

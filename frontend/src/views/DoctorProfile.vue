@@ -72,6 +72,7 @@ const onFileSelect = (event) => {
 }
 
 const handleCroppedImage = async (blob) => {
+    showCropModal.value = false // <-- NEW: Close modal instantly!
     isUploading.value = true
     uploadError.value = ''
 
@@ -92,7 +93,6 @@ const handleCroppedImage = async (blob) => {
             authStore.user.profile_picture = response.data.picture_url
         }
         
-        showCropModal.value = false 
         updateMessage.value = "Profile picture updated globally!"
         setTimeout(() => updateMessage.value = '', 3000)
     } catch (error) {
@@ -162,6 +162,10 @@ onMounted(() => { fetchProfile() })
                                  alt="Profile" class="profile-img">
                             <div v-else class="avatar-placeholder provider-gradient">
                                 {{ profile.name ? profile.name.charAt(0).toUpperCase() : 'Dr.' }}
+                            </div>
+
+                            <div v-if="isUploading" class="upload-overlay">
+                                <div class="spinner-overlay-blue"></div>
                             </div>
                         </div>
                         
@@ -287,7 +291,20 @@ onMounted(() => { fetchProfile() })
 
 /* --- AVATAR SECTION --- */
 .avatar-section { display: flex; align-items: center; gap: 2.5rem; }
-.avatar-wrapper { width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 4px solid #ffffff; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.avatar-wrapper { position: relative; width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 4px solid #ffffff; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+.upload-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 10;
+}
+.spinner-overlay-blue {
+  width: 35px; height: 35px;
+  border: 4px solid rgba(37, 99, 235, 0.2); border-top-color: #2563eb;
+  border-radius: 50%; animation: spin 1s linear infinite;
+}
 .provider-gradient { background: linear-gradient(135deg, #2563eb, #60a5fa); color: white; }
 .profile-img { width: 100%; height: 100%; object-fit: cover; }
 .avatar-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; font-weight: 800; color: white; }
