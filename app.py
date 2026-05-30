@@ -1315,8 +1315,8 @@ def api_book_appointment():
         # Fetch the user account to get their email address
         user_account = User.query.get(patient.user_id)
         if user_account and user_account.email:
-            # Send to celery in the background
-            send_payment_receipt(user_account.email, member_name_for_msg)
+            # --- THE FIX: Add .delay() to send it to the background ---
+            send_payment_receipt.delay(user_account.email, member_name_for_msg)
 
         # ==========================================
         # 4. BROADCAST THE LIVE UPDATE (SSE)
