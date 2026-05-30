@@ -23,13 +23,6 @@ const showCropModal = ref(false)
 const imageSource = ref(null)
 const imageTimestamp = ref(Date.now()) // The Cache-Buster!
 
-// Dynamic image URL helper - uses cloud URL in production, local in dev
-const getImageUrl = (imagePath) => {
-    if (!imagePath) return '/default-avatar.png';
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
-    return `${baseUrl}${imagePath}`;
-};
-
 const fetchProfile = async () => {
     try {
         const response = await axios.get('http://127.0.0.1:5000/api/doctor/profile', { 
@@ -165,7 +158,7 @@ onMounted(() => { fetchProfile() })
                     <div class="avatar-section">
                         <div class="avatar-wrapper">
                             <img v-if="profile.profile_picture" 
-                                 :src="`${getImageUrl(profile.profile_picture)}?t=${imageTimestamp}`" 
+                                 :src="`${profile.profile_picture}?t=${imageTimestamp}`" 
                                  alt="Profile" class="profile-img">
                             <div v-else class="avatar-placeholder provider-gradient">
                                 {{ profile.name ? profile.name.charAt(0).toUpperCase() : 'Dr.' }}

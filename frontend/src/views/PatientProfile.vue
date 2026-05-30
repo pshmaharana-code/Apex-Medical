@@ -25,13 +25,6 @@ const showCropModal = ref(false)
 const imageTimestamp = ref(Date.now())
 const imageSource = ref(null)
 
-// Dynamic image URL helper - uses cloud URL in production, local in dev
-const getImageUrl = (imagePath) => {
-    if (!imagePath) return '/default-avatar.png';
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
-    return `${baseUrl}${imagePath}`;
-};
-
 // --- FAMILY MEMBER STATE ---
 const familyMembers = ref([])
 const isFamilyLoading = ref(true)
@@ -208,7 +201,7 @@ onMounted(() => {
                         <div class="avatar-section">
                             <div class="avatar-wrapper">
                                 <img v-if="profile.profile_picture" 
-                                     :src="`${getImageUrl(profile.profile_picture)}?t=${imageTimestamp}`" 
+                                     :src="`${profile.profile_picture}?t=${imageTimestamp}`" 
                                      alt="Profile" class="profile-img">
                                 <div v-else class="avatar-placeholder">
                                     {{ profile.name ? profile.name.charAt(0).toUpperCase() : '?' }}

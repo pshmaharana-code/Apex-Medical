@@ -26,8 +26,20 @@ from flask_caching import Cache
 from dotenv import load_dotenv
 import razorpay
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 # Load the environment variables from the .env file
 load_dotenv()
+
+# Configure Cloudinary using your environment variables
+cloudinary.config( 
+    cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"), 
+    api_key = os.getenv("CLOUDINARY_API_KEY"), 
+    api_secret = os.getenv("CLOUDINARY_API_SECRET"),
+    secure = True
+)
 
 # Securely fetch the keys
 RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
@@ -71,20 +83,26 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def save_uploaded_image(file, prefix):
-    # """
-    # Takes an uploaded file and a prefix (e.g., 'patient_1' or 'doctor_5').
-    # Saves the file safely and returns the database-ready URL string.
-    # """
-    if file and allowed_file(file.filename):
-        from werkzeug.utils import secure_filename
-        import os
+    """
+    Takes an uploaded file, sends it directly to the Cloudinary CDN,
+    and returns the permanent, globally accessible HTTPS URL.
+    """
+    if file:
+        try:
+            # Upload the file directly to Cloudinary
+            upload_result = cloudinary.uploader.upload(
+                file,
+                folder="apex_profiles",
+                public_id=f"{prefix}_{secrets.token_hex(4)}",
+                overwrite=True
+            )
 
-        filename = secure_filename(file.filename)
-        unique_filename = f"{prefix}_{filename}"
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
+            # Extract and return the permanent, secure HTTPS link from Cloudinary
+            return upload_result.get('secure_url')
 
-        file.save(filepath)
-        return f"/static/uploads/{unique_filename}"
+        except Exception as e:
+            print(f"Cloudinary upload failed: {e}")
+            return None
     return None
 
 def generate_secure_otp():
