@@ -43,6 +43,13 @@ const getLocalToday = () => {
 }
 const todayFormatted = ref(getLocalToday())
 
+// Dynamic image URL helper - uses cloud URL in production, local in dev
+const getImageUrl = (imagePath) => {
+    if (!imagePath) return '/default-avatar.png';
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+    return `${baseUrl}${imagePath}`;
+};
+
 // --- METHODS ---
 const fetchDashboard = async () => {
     try {
@@ -301,7 +308,7 @@ onMounted(() => {
                     </button>
                     <div class="user-profile" @click="$router.push('/doctor-profile')">
                         <img v-if="authStore.user?.profile_picture" 
-                             :src="`http://127.0.0.1:5000${authStore.user.profile_picture}`" 
+                             :src="getImageUrl(authStore.user.profile_picture)" 
                              alt="Profile" class="avatar-placeholder img-cover" />
                         <div v-else class="avatar-placeholder provider-gradient">
                             {{ dashboardData?.doctor_name ? dashboardData.doctor_name.charAt(0).toUpperCase() : 'D' }}

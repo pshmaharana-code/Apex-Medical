@@ -123,6 +123,13 @@ const downloadPrescription = (record) => {
 // 1. Add this new ref near your other refs at the top
 const profilePic = ref(null)
 
+// Dynamic image URL helper - uses cloud URL in production, local in dev
+const getImageUrl = (imagePath) => {
+    if (!imagePath) return '/default-avatar.png';
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+    return `${baseUrl}${imagePath}`;
+};
+
 // 2. Add this small function to fetch just the profile picture on refresh
 const fetchProfilePic = async () => {
     try {
@@ -198,7 +205,7 @@ onMounted(() => {
                     </button>
                     <div class="user-profile" @click="$router.push('/patient-profile')">
                         <img v-if="profilePic || authStore.user?.profile_picture" 
-                            :src="`http://127.0.0.1:5000${profilePic || authStore.user?.profile_picture}`" 
+                            :src="getImageUrl(profilePic || authStore.user?.profile_picture)" 
                             alt="Profile" 
                             class="avatar-placeholder" 
                             style="object-fit: cover; border: 2px solid #0f766e; background: white;" />
