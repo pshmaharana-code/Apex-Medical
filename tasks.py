@@ -1,3 +1,4 @@
+import os
 from celery_worker import celery_app
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -52,12 +53,27 @@ def send_email(to_address, subject, message, content="html", attachment_data=Non
         # 5. Tape the packet to the envelope
         msg.attach(part)
 
-    # Hand it to the post office(MailHog)
+    # Ensure the "From" address matches the authenticated Gmail account
+    msg['From'] = os.getenv('MAIL_USERNAME', 'billing@apexhospital.com')
+
+    # Hand it to the post office (Google SMTP)
     try:
-        # Mailhog listen on localhost:1025
-        s = smtplib.SMTP(host='localhost', port=1025)
+        # 1. Connect to Google's secure server
+        s = smtplib.SMTP(host='smtp.gmail.com', port=587)
+        s.ehlo() # Identify ourselves
+        
+        # 2. Start Secure TLS encryption
+        s.starttls() 
+        
+        # 3. Log in using your Environment Variables
+        mail_user = os.getenv('MAIL_USERNAME')
+        mail_password = os.getenv('MAIL_PASSWORD')
+        s.login(mail_user, mail_password)
+        
+        # 4. Send the envelope and close connection
         s.send_message(msg)
         s.quit()
+        print(f"Successfully sent email to {to_address} via Gmail!")
 
     except Exception as e:
         print(f"Failed to send email: {e}")
