@@ -224,7 +224,7 @@ onMounted(() => {
                 <!-- GREETING & QUICK STATS -->
                 <section class="top-widgets">
                     <div class="greeting-card">
-                        <h1>Good morning, PIYUSH! 👋</h1>
+                        <h1>Good morning, {{ authStore.user?.username }} 👋</h1>
                         <p>Manage your appointments and access your medical records securely.</p>
                     </div>
                     
@@ -333,7 +333,7 @@ onMounted(() => {
                     <div class="summary-card-elevated">
                         
                         <div class="summary-left">
-                            <h2>feel better, <br/>PIYUSH MAHARANA</h2>
+                            <h2>feel better, <br/>{{ authStore.user?.username }}</h2>
                             <p>Your health at a glance.</p>
                         </div>
                         
